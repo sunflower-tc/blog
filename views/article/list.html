@@ -1,0 +1,98 @@
+<%include ../include/header.html%>
+<%
+articles.forEach(function(article){%>
+
+<div class="media">
+    <div class="media-left">
+        <a href="#">
+            <img class="media-object" src="<%=article.user.avatar%>" alt="...">
+        </a>
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading">
+            <a href="/article/detail/<%=article._id%>"><%=article.title%></a></h4>
+        <p>作者：<%-article.user.username%></p>
+        <p><%-article.content%></p>
+        <p>阅读量：<%=article.pv%></p>
+        <p>评论数：<%=article.comments.length%></p>
+       <p>发表时间:<%=article.createAt.toLocaleString()%></p>
+    </div>
+</div>
+<%})%>
+<nav>
+    <ul class="pagination">
+        <%if(pageNum>1){%>
+        <li>
+            <a onclick="goPage(<%=pageNum-1%>)" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <%}%>
+        <%
+        for(var i=1;i<=totalPage;i++){%>
+        <li class="<%=i==pageNum?'active':''%>">
+            <a onclick="goPage(<%=i%>)" href="#"><%=i%></a></li>
+        <%}
+        %>
+
+        <%if(pageNum < totalPage){%>
+     <li>
+            <a onclick="goPage(<%=pageNum+1%>)" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <%}%>
+    </ul>
+</nav>
+<!--用来切换每一条的条数-->
+<!--<nav>
+    每页的条数
+    <ul class="pagination">
+        <li>
+            <select onchange="goPage(<%=pageNum%>)" href="#" name="" id="pageSize" class="form-control">
+                <option <%=pageSize==5?'selected':''%> value="5">5</option>
+                <option <%=pageSize==10?'selected':''%> value="10">10</option>
+                <option <%=pageSize==15?'selected':''%> value="15">15</option>
+            </select>
+        </li>
+  </ul>
+</nav>-->
+<!--排序字段-->
+<!--<nav>
+    排序字段
+    <ul class="pagination">
+        <li>
+            <select onchange="goPage(<%=pageNum%>)" id="orderBy" class="form-control">
+                <option <%=orderBy=='user'?'selected':''%> value="user">editor</option>
+                <option <%=orderBy=='title'?'selected':''%> value="title">title</option>
+                <option <%=orderBy=='content'?'selected':''%> value="content">content</option>
+                <option <%=orderBy=='createAt'?'selected':''%> value="createAt">createAt</option>
+            </select>
+        </li>
+    </ul>
+</nav>-->
+<!--升序降序-->
+<!--<nav>
+    升序降序
+    <ul class="pagination">
+        <li>
+            <select onchange="goPage(<%=pageNum%>)"  id="order" class="form-control">
+                <option <%=order==1?'selected':''%> value="1">升序</option>
+                <option <%=order==-1?'selected':''%> value="-1">降序</option>
+            </select>
+        </li>
+    </ul>
+</nav>-->
+<script>
+     function goPage(pageNum){
+          /* var pageSize=5;*/
+        /*   var orderBy=document.querySelector('#orderBy').value;
+           var order=document.querySelector('#order').value;*/
+
+     var url=`/article/list?keyword=<%=keyword%>&pageNum=${pageNum}`;
+         console.log(url)
+         window.location.href=url;
+
+     }
+</script>
+<%include ../include/footer.html%>
